@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Tree Actions - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="../demo.css">
+	<script type="text/javascript" src="../../jquery.min.js"></script>
+	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
+</head>
+<body>
+	
+	<div class="easyui-panel" style="padding:5px">
+		<ul id="tt" class="easyui-tree" data-options="url:'http://localhost:3000/cat/list',animate:true,checkbox:true"></ul>
+	</div>
+	<form>
+		分类名称：<input type="text" name="text"/>
+		父类id：<input type="text" id="parentId" name="parentId"/>
+	</form>
+	<button onclick="getTree()">getTree</button>
+	<script>
+	$('#tt').tree({
+		method:'post',
+	onClick: function(node){
+		$('#parentId').val(node._id)
+		alert(node._id);  // alert node text property when clicked
+	}
+	});
+	function getTree(){
+		var node =$('#tt').tree('getSelected')
+		console.log(node)
+	}
+</script>
+</body>
+</html>

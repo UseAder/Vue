@@ -1,0 +1,80 @@
+Vue.js 的目标是通过尽可能简单的 API 实现响应的数据绑定和组合的视图组件
+Vue.js就是一个用于搭建类似于网页版知乎这种表单项繁多，且内容需要根据用户的操作进行修改的网页版应用。
+Vue.js有声明式，响应式的数据绑定，与组件化的开发，并且还使用了Virtual DOM这个看名字就觉得高大上的技术。让基于网页的前端应用程序开发起来更方便
+Vue.js更简单的MVVM(Model-View-View-Model)
+
+学习目录：
+    1).插值表达式及数据绑定
+    2).事件
+    3).DOM交互
+    4).样式处理
+    5).条件、循环语句
+    6).游戏项目实战
+    7).实例化
+    8).Vue-CLI
+    9).组件
+    10).组件通信
+    11).高级组件应用
+    12).引用项目实战
+    13).表单处理
+    14).指令
+    15).过滤器
+    16).动画
+    17).http请求
+    18).路由
+    19).Vuex
+    
+Vue实例对象新建，注意三点：设参。传参。接参    
+安装 cnpm i vue -S
+
+    1).插值表达式及数据绑定
+        {{}}————>运行插值或插值方法
+        
+        数据绑定：v-model="title"————>数据绑定操作  (data中的插值绑定)
+        
+        v-on:input="changetitle"————>改变输入框内容  (methoes中的changetitle方法，this.title改变data中的插值)
+        
+        v-on: 可以缩写成@
+
+        属性绑定：v-bind: 可以缩写成:
+            html的标签属性需要用属性绑定的方式进行操作
+
+        标签解析：v-html="titlehtml"  将data中的插值中的标签元素解析
+
+        事件绑定：v-on:click="titleclick"
+
+        判断语句：
+            1.三目运算符 count>10?"大于10":"小于10"
+            2.变量显示 传实参
+            3.方法
+            4.计算属性 computed
+        监听watch：
+            有两个参数 监听data中插值的数据变化
+
+computed和methods之间的差异：
+    前者通常使用在对象的属性计算操作上面，
+        它会保存在计算机的内存中，使用后会有内存驻留，运行将会更快
+    后者每一次的运算都会重新执行，性能相对较弱
+
+
+小提示：
+    事件修饰符：————>修饰符通过.连接，存在有prevent capture native self enter space
+        v-on：keyup.65="事件"
+        v-on：mousemove.stop 禁止鼠标移动
+    网站操作：More tools————>rendering  可以查看当前哪些布局受到当前触发影响
+    confirm('这会是一个确认框')
+    easyui自适应 data-options="fit:true"
+
+index2：
+
+    v-if v-else是条件判断语句
+        而template可以让页面显示多个判断结果
+        如果只是为了隐藏和显示：
+            建议使用v-show(注意不存在hide),
+            元素可以一直存在，不会被删除
+            
+    v-for是循环语句   <li v-for="(i1,i2) in arr" :key="i2">{{i1,i2}}</li>
+        key设置唯一属性 ，以便于查找到这个对象，并且有优化性能的作用
+
+
+

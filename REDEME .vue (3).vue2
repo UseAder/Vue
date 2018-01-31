@@ -1,0 +1,5 @@
+通过Vue.directive进行自定义指令的创建，(例：v-highlight:color.delayed="'red'")
+        需要注意el、binding、 vnode及oldVnode等指令参数的意义
+        通过binding进行属性的设置 binging.value  （"'red'"）
+        binding.arg    （:color）
+        binding.modifiers['delayed']

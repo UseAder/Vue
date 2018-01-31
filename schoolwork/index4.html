@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+</head>
+<body>
+    <div id="app">
+        {{title}}
+        <h1 ref="mh1">执行与mounted时（及安装完成）</h1>
+        <button v-on:click="title='changed我已经更新了'" >update button</button>
+        <button v-on:click="destroy">destroy button</button>       
+    </div>
+    <script src="./node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        //beforeCreate、 created、 mounted、 updated、 beforeDestroy、 destroyed
+        //生命周期 lifecycle
+        //钩子函数 hook
+        new Vue({
+            el:"#app",
+            data:{
+               title:"哦谢特"
+            },
+            beforeCreate:function(){
+                console.log('1.beforebefore 在。。。创建之前');
+                
+            },
+          
+            created:function(){
+                console.log('2.created 创建');
+                
+            },
+            beforeMount:function(){
+                console.log('3.beforeMount 在。。。安装之前');
+                
+            },
+            mounted:function(){
+                console.log('4.mounted 安装');
+                
+                console.log(this.$refs.mh1);
+                this.$refs.mh1.style.color='red'
+                
+            },
+           
+            updated:function(){//
+                console.log('5.updated 执行了一个更新');               
+            },
+            beforeDestroy:function(){
+                console.log('...6.beforeDestroy 在。。。销毁之前');              
+            },
+            destroyed:function(){
+                console.log('...7.destroyed 销毁');               
+            },
+            
+            
+            methods:{
+                destroy:function(){                   
+                    console.log('...销毁');
+                    this.$destroy();
+                }
+            }
+        })
+    </script>
+</body>
+</html

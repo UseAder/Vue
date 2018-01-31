@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+</head>
+<body>
+    <div id="app">
+        {{title}}
+        
+        {{methods()}}
+        {{computed}}
+        <input type="text" v-model='title'>
+        <br>
+        <input type="text" @input='changeTitle'>
+        <a :href="link">百度一下</a>
+        <p v-html="titlehtml"></p>
+        <button v-on:click="titleclick"></button>{{count>10?"大于10":"小于10"}}
+        
+
+    </div>
+    <script src="./node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                title:"戴凯杰",
+                link:'http://www.baiu.com',
+                titlehtml:'<a href="http://www.baiu.com">百度一下</a>',
+                count:0
+            },
+            computed:{
+                computed:function(){
+                    return this.count >10?"大于10":"小于10"
+                }
+            },
+            watch:{
+                count:function(va1,va2){
+                    console.log(va1,va2);
+                    
+                }
+            },
+            methods:{
+                methods:function () {
+                    return "戴凯杰方法"
+                },
+                changeTitle:function(){
+                    this.title=event.target.value    
+                },
+                titleclick:function(){
+                    this.count++
+                }
+                
+            }
+        })
+    </script>
+</body>
+</html>

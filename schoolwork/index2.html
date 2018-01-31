@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+    <style>
+        .demo{background: cadetblue;height: 100px;width: 100px;margin: 10px}
+    .red{background: red}
+    .green{background: green}
+    .blue{background: blue}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="demo" @click="attach=!attach" :class="computedattach"></div><!--属性计算-->
+        <div class="demo" :class="{red:attach}"></div>
+
+        <div class="demo" :class="color"></div><!--双向数据绑定-->
+        <div class="demo" :style="{backgroundColor:color}"></div>
+        <div class="demo" :style="[backgroundColor,{height:width+'px'}]"></div>
+        <input type="text" v-model="color">
+        <template v-if="attach">
+            <p>是的</p>
+            <p>是的</p>
+        </template>
+        <p v-show="!attach">是的3</p>
+        <ul>
+                <li v-for="(i1,i2) in arr" :key='i2'>
+                    <a v-for="(i11,i21,i31) in i1">{{i21}}:{{i11}}{{i31}}</a>
+
+                </li>
+        </ul>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>  
+    </div>
+    <script src="./node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+              arr:[{n:'戴',a:'凯',me:'杰'},{n:'戴',a:'凯',me:'杰'},{n:'戴',a:'凯',me:'杰'}],  
+              attach:false,
+              color:"pink",
+              width:200
+            },
+            computed:{
+                computedattach:function(){
+                    return {
+                        red:this.attach,
+                        blue:!this.attach
+                    }
+                },
+                backgroundColor:function(){
+                    return {
+                        backgroundColor:this.color,
+                        width:this.width+"px"
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
