@@ -10,15 +10,50 @@
           </div>
         </div>
       </div>
+      <hr>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-8">
+            <h2>过滤器Filter</h2>
+            <p>{{text | to-lowercase | toUppercase}}</p>
+           <List></List>
+           <button @click="gonggong">appMixin</button>
+            <h3 ref='h3'>ff</h3>
+          </div>
+        </div>
+      </div>
+      <hr><hr><hr>
+      <Animations></Animations>
+      <hr>
+      <Axios></Axios>
+      <hr>
+      <hr>
+      <hr>
+      <RouterApp></RouterApp>
+      <router-view></router-view> 
   </div>
 </template>
 
 <script>
+import List from './list.vue';
+import Animations from './Animations.vue';
+import {Mixin} from './Mixin';
+import Axios from './Axios/axios.vue';
+import RouterApp from './Router/routerApp.vue';
 export default {
+  mixins:[Mixin],
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      text:"我是一个Filter过滤器"
+    
     }
+  },
+  components:{
+    List,
+    Animations,
+    Axios,
+    RouterApp
   },
   directives:{
     "local-highlight":{
@@ -62,6 +97,11 @@ export default {
 
           }      
        }
+    }
+  },
+  filters:{
+    toUppercase(value){
+      return value.toUpperCase();
     }
   }
 }
