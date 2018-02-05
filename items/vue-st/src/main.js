@@ -8,11 +8,19 @@ import {routes} from './router';
 Vue.use(VueRouter)
 const router =new VueRouter({
   //实例化路由对象
-
   routes,
-  mode:'history'   //还有一个是hash/history  它们的作用是关于地址的#
+  mode:'history',   //还有一个是hash/history  它们的作用是关于地址的#
+  scrollBehavior(to,from){//锚点
+    if (to.hash) {
+      return {selector:to.hash}
+    }
+  }
 })
 
+router.beforeEach((to,from,next)=>{
+  console.log('beforeEach Router',to,from);
+  next()
+})
 
 //全局注册了一个指令
 Vue.directive('highlight',{

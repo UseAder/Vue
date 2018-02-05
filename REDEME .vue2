@@ -50,6 +50,10 @@ Vue生命周期： 详见index4
      deactivated(){console.log('休眠');}
 
 
+     beforeRouteLeave 是路由的钩子函数   离开一个组件
+     beforeRouteEnter  进入一个组件
+
+
 表单 
     1)不管是input、select、textarea全部可以用v-model进行双向数据绑定
     2):value+@input ===  v-model

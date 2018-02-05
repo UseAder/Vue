@@ -1,0 +1,210 @@
+上周总结：
+    <C @updated='counter+=$event'></C>
+    <R :counter='counter'></R>
+    <button class="btn btn-primary" @click="increment">增加</button>
+    <button class="btn btn-primary" @click="decrement">减少</button>
+    methods:{
+      increment(){
+          this.$emit('updated',1);
+      },
+      decrement(){
+          this.$emit('updated',-1);
+      }
+    }
+    。。
+    <div class="container">  {{counter}}</div>
+     props:['counter']
+     。。
+    components:{C,R}
+
+开始
+    VUEX
+    安装vuex模块：cnpm i vuex -D
+    import Vue from 'vue';
+    import Vuex from 'vuex';
+    Vue.use(Vuex);
+    export const store =new Vuex.Store({//进行接口暴露 暴露一个stroe仓库的对象 这个对象是Vuex的Store仓库的实例对象
+        state:{//state是Vuex仓库的一个状态内容
+            counter: 0
+        }
+    })
+    ...
+    import {store} from '../store.js'
+    new Vue({
+    el: '#app',
+    store,
+    render: h => h(App)
+    })
+    ...
+    increment(){
+        console.log(this.$store);
+        this.$store.state.counter++
+    },
+    decrement(){
+        this.$store.state.counter--
+    }
+    ...
+    computed:{
+        counter(){
+            return this.$store.state.counter
+        }
+    }
+
+
+    state的取值是用this.$store.state.xxx，我们使用 只进行数据设置,使用则是：
+        getters:{
+            gaicounter:state=>{
+                return state.counter*2+‘。。’
+            }
+        }
+        。。。
+       【 computed:{
+            counter(){     
+            return this.$store.getters.gaicounter
+            }
+        }
+         。。。
+         {{counter}}
+        】
+        改为————>
+        import {mapGetters} from 'vuex';
+        ...mapGetters([
+        'gaicounter'
+        ])
+        。。。
+        {{gaicounter}}
+        mapGetters是直接调用store的所有getters方法 将他们放在数组中
+
+    mutations是vuex中唯一执行数据修改的地方
+        mutations:{
+            increment:state=>{
+                state.counter++
+            },
+            decrement:state=>{
+                state.counter--
+            }
+        }
+    ...
+    【this.$store.commit('increment')】//进行matations的调用是通过commit的方式进行操作
+    改：跟上面的getters方法类似————>
+    import {mapMutations} from 'vuex'
+     methods:{    
+        ...mapMutations([
+            'increment',
+            'decrement'
+        ])
+     }
+    
+     mutations只支持同步的数据变化操作，它不支持异步的数据变化操作
+     所以 我们可以通过actions进行异步的处理，利用actions进行调用mutations的方法来进行数据的修改 
+    程序会先执行actions 在执行mutations
+    actions:{
+        increment:context=>{//context是上下文关系
+            setTimeout(()=>{
+                context.commit('increment')//commit调用mutations的方法
+            },2000)
+          
+        },
+        decrement:context=>{//context是上下文关系
+            context.commit('decrement')//commit调用mutations的方法
+        }
+    }
+    进行mutations的调用通过可以以commit的方式进行操作 将这个this.$store.commit('increment')改为： 
+        this.$store.dispatch('increment') 改：跟上面的getters方法类似————>
+            import {mapActions} from 'vuex'
+            methods:{    
+                ...mapActions([
+                    'increment',
+                    'decrement'
+                ])
+            }
+
+     decrement:({commit},payload)=>{//第二个参数接收c.vue的减少传递来的值 在传递给mutations 数据修改
+           commit('decrement',payload)//commit调用mutations的方法
+        }
+    ...
+    decrement:(state,payload)=>{
+        console.log('mutions:',payload)
+        state.counter=state.counter-payload
+       
+    }
+    ..
+    import {mapActions} from 'vuex'
+    ...mapActions([ 'decrement' ])
+    @click="decrement(50)如果将这个传入一个数组则上面则变成
+    ————>
+    ...
+    decrement:({commit},payload)=>{//第二个参数接收c.vue的减少传递来的值 在传递给mutations 数据修改
+        setTimeout(()=>{
+            commit('decrement',payload,by)//commit调用mutations的方法
+        },payload,dealy)
+    }
+    @click="decrement({by：30,dealy：300})
+
+
+    总结：
+        一个store包含4个部分 state、getters、mutation、actions
+        1.state只进行值得设置
+        2.getters只进行值得获取
+        3.mutations只进行值得修改
+        4.actions进行异步操作的实现
+
+    要实现状态的v-model。需要将函数转化成object形式。设置用set 取值用get  的方式实现
+    <input type="text" :value="value" @input="updataValue">
+    <input type="text" v-model="value">
+    computed:{
+        value:{
+            get(){
+                return this.$store.getters.value;//取值
+            },
+            set(value){
+                this.$store.dispatch('updataV',value) //设值
+            }
+        } 
+    },
+    methods:{
+        updataValue(event){
+        this.$store.dispatch('updataV',event.target.value)   //dispatch调用store中的actions
+        }
+    },
+    。。。actions
+    updataV:({commit},payload)=>{
+            commit('updataValue',payload)//commit调用mutations的方法
+    }
+    。。mutations
+    updataValue:(state,payload)=>{
+        state.value=payload
+    }
+    。。getters
+    value:state=>{
+        return state.value
+    }
+    。。state
+    value:1
+
+
+    封装store
+    import Vue from 'vue';
+    import Vuex from 'vuex';
+    Vue.use(Vuex);
+    import * as getters from './getters' ————>例如：gaicounter:state=>{return state.counter}  改为 export const gaicounter=state=>{return state.counter}
+    import * as mutations from './mutations'
+    import * as actions from './actions'
+    import counter from './modules/counter.js' ————>const state={}  const getters={} const mutations={}
+    export const store =new Vuex.Store({
+        state:{
+            value:0
+        },
+        getters,
+        mutations,
+        actions,
+        modules:{
+            counter
+        }
+    })
+    
+
+
+Ui 框架
+    https://www.iviewui.com/components/scroll
+    http://element.eleme.io/#/zh-CN/component/installation

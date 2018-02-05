@@ -30,7 +30,13 @@
       <hr>
       <hr>
       <RouterApp></RouterApp>
-      <router-view></router-view> 
+      <router-view name='hea-top'></router-view> <!--通过设置路由名称 ，以router-view指定名称模块的显示-->
+      <transition name="slide" mode='out-in'>
+        <router-view></router-view> 
+      </transition>
+      
+      <router-view name='hea-bottom'></router-view> 
+      <br><br><br><br><br><br><br><br><br><br><br>
   </div>
 </template>
 
@@ -108,5 +114,42 @@ export default {
 </script>
 
 <style>
-
+    .fade-enter{
+        opacity: 0
+    }
+    .fade-enter-active{
+        transition:opacity 1s;
+    }
+    .fade-leave{
+        opacity: 1 
+    }
+    .fade-leave-active{
+        transition:opacity 1S;
+        opacity: 0 
+    }
+/* enter/enter-active/leave/leave-activ */
+    .slide-enter{
+        opacity: 0
+    }
+    .slide-enter-active{
+        animation: slide-in 1S forwards;
+        transition: opacity .5s;
+    }
+    .slide-leave{
+        
+    }
+    .slide-leave-active{
+         animation: slide-out 1S ease-in-out forwards;
+         transition:opacity 3s;
+         opacity:0;
+    }
+    @keyframes slide-in{
+        from{
+            transform: translateY(0px)
+        }
+        to{
+            transform: translateY(20px)
+        }
+    }
 </style>
+

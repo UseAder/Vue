@@ -1,0 +1,47 @@
+安装 cnpm i iview --save
+     {
+        test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+        loader: 'file-loader'
+     }：添加ttf 添加后重启
+    路由配置：
+        import Home from './compoents/home.vue'
+        export const routes =[
+            {path:'/',component:Home}
+        ]
+        。。
+        import VueRouter from 'vue-router';
+        import {routes} from './router.js';
+        Vue.use(VueRouter);
+        const router =new VueRouter({
+        routes,
+        mode:'hash'
+        }) 
+        new Vue({
+        el: '#app',
+        router,
+        render: h => h(App)
+        })
+        。。
+        <router-view></router-view>
+
+        <router-link to="/" active-class="active">
+        内容。。。
+        </router-link>
+
+        
+        安装：cnpm i axios vue-axios -S
+            import axios from 'axios'
+                import VueAxios from 'vue-axios'
+                Vue.use(VueAxios, axios)
+        引入data数据：    
+            created(){
+            this.$http.post('http://localhost:3000/cat/list').then((response) => {
+                this.data=response.data
+            })
+            },
+
+
+        微信小程序:
+            http://sae.sina.com.cn/?m=vermng&app_id=chinatianyi&version=1
+            http://www.runoob.com/css/css-rwd-viewport.html 
+            github (vue mint ui)

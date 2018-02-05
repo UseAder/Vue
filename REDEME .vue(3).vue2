@@ -1,0 +1,235 @@
+通过Vue.directive进行自定义指令的创建，(例：v-highlight:color.delayed="'red'")
+        需要注意el、binding、 vnode及oldVnode等指令参数的意义
+        通过binding进行属性的设置 binging.value  （"'red'"）
+        binding.arg    （:color）
+        binding.modifiers['delayed']
+
+过滤器  filters 一个内置的属性 function(value)的value值是前面默认需要过滤对象内容，
+      另外：我们通过computed来实现过滤器的动态过滤与计算
+<p>{{text | to-lowercase | toUppercase}}</p>
+methods：{
+   filters:{
+    toUppercase(value){
+      return value.toUppercase();
+    }
+  }  
+}
+
+混合 mixins  将相同属性和方法放在一起
+export const Mixin={
+    methods:{
+        gonggong(){
+           this.$refs.h3.innerHTML="red";
+            
+        }
+    }
+}
+import {Mixin} from './Mixin'
+export default {
+  mixins:[Mixin]
+}
+
+动画 transition动画的产生主要包含进入出移出的样式控制，在设置完样式以后设置transition的name值，设置为样式名称前缀即可，样式主要包含enter/enter-active/leave/leave-active等；
+       小说明：appear设置 也让动画加载
+              slide是利用transition和animation结合的动画效果，在一些场景中，你需要给同一个元素同时设置两种过渡动效，比如 animation 很快的被触发并完成了，而 transition 效果还没结束。在这种情况中，你就需要使用 type 特性并设置 animation 或 transition 来明确声明你需要 Vue 监听的类型            
+              animated 这个类是引用animation必需使用的  
+              元素之间动画切换操作，mode='in-out' : 新元素先进行过渡，完成之后当前元素过渡离开。out-in: 当前元素先进行过渡，完成之后新元素过渡进入。 key:当有相同标签名的元素切换时，需要通过 key 特性设置唯一的值来标记以让 Vue 区分它们，否则 Vue为了效率只会替换相同标签内部的内容
+        <transition name="fade" appear>
+                <h1 v-show="!show" class="alert alert-info" >Animations</h1>
+        </transition>
+        <transition name="slide" type="animation">
+                <h1 v-show="show" class="alert alert-info">Animations slide</h1>
+        </transition>
+        <transition enter-active-class="animated bounce" leave-active-class="animated shake">
+                <h1 v-show="show" class="alert alert-info">Animations getHub</h1>
+        </transition>
+
+        <select v-model="alertAnimation" class="form-control" @click="show=!show">
+                <option value="fade">fade</option>
+                <option value="slide">slide</option>
+        </select>
+        <br>
+        <transition :name="alertAnimation" mode="out-in">
+        <h1 class="alert alert-info" v-if="show" key="info">ANIMATIONS MODE</h1>
+        <h1 class='alert alert-warning' v-else key="warning">animations mode</h1>
+        </transition>
+        <style>
+                .fade-enter{
+                opacity: 0
+                }
+                .fade-enter-active{
+                        transition:opacity 1s;
+                }
+                .fade-leave{
+                        opacity: 1 
+                }
+                .fade-leave-active{
+                        transition:opacity 1s;
+                        opacity: 0 
+                }
+                 .slide-enter{
+                        opacity: 0
+                }
+                .slide-enter-active{
+                        animation: slide-in 1S forwards;
+                        transition: opacity .5s;
+                }
+                .slide-leave{
+                        
+                }
+                .slide-leave-active{
+                        animation: slide-out 1S ease-in-out forwards;
+                        transition:opacity 3s;
+                        opacity:0;
+                }
+                @keyframes slide-in{
+                        from{
+                        transform: translateY(0px)
+                        }
+                        to{
+                        transform: translateY(20px)
+                        }
+                }
+        </style>
+        注：关于动画的网站 http://www.bootcdn.cn/animate.css/
+                        https://github.com/daneden/animate.css  
+        动画具有生命周期：
+                动画生命周期的钩子函数主要包含： @before-enter/@enter/@after-enter/@enter-cancelled/@before-leave/@leave/@after-leave/@leave-cancelled。 推荐对于仅使用 JavaScript 过渡的元素添加 v-bind:css=“false”，Vue 会跳过 CSS 的检测，这也可以避免过渡过程中 CSS 的影响   el参数表示该运动动画的标签
+
+        对于列表等类型的内容可以使用<transition-group name=“slide”>来实现群组动画        
+
+
+VUE-AXIOS（https://github.com/imcvampire/vue-axios）  
+AXIOS-AXIOS (https://github.com/axios/axios)
+     安装 npm install --save axios vue-axios   
+        引入 :  import Vue from 'vue'
+                import axios from 'axios'
+                import VueAxios from 'vue-axios'
+                Vue.use(VueAxios, axios)
+        后台测试：（https://github.com/typicode/json-server）
+
+(SPA 单页面应用 Single Page Application)
+        静态路由表————>统一路口————>分配地址————>寻址————>过滤
+
+路由模块：
+        安装cnpm i vue-router -D
+        有首页Home、用户User、用户列表UserStart、用户编辑UserEdit、用户详情UserDetail等模块，需要对它们进行路由的设置，
+        路由设置之前需要进行路由模块的安装：。在创建完router.js路由模块以后，
+        在main.js中引入vue-router模块并进行使用Vue.use(VueRouter)，
+        并且new VueRouter以后将引入的router模块进行设置
+        ，最后需要在new Vue实例对象中设置router模块
+        import VueRouter from 'vue-router';                
+        import {routes} from './router';
+        Vue.use(VueRouter)
+        const router =new VueRouter({   (router这个名字不可以变)
+        //实例化路由对象
+        routes,
+        mode:'history'   //还有一个是hash/history  它们的作用是关于地址的#
+        })
+        、、
+        new Vue({
+        el: '#app',
+        router,
+        render: h => h(App)
+        })
+        、、
+        <router-view></router-view> 
+        、、
+        import Home from './Router/Home.vue';
+        import User from './Router/User.vue';
+        export const routes=[
+        {path:'/',component:Home},
+        {path:'/user',component:User}
+        ]
+        路由连接网页：注意——>exact
+                {path:'/user/:id',component:User}
+                <p>ID:{{id}}</p>
+                <router-link to="/" tag="li" active-class="active" exact>HOME</router-link>
+                <router-link to="/user/10" tag="li" active-class="active">USER</router-link>
+                <router-link to="/user/20" tag="li" active-class="active">USER20</router-link>
+                export default {
+                        data(){
+                                return {
+                                id:this.$route.params.id
+                                }
+                        },
+                        watch:{
+                                '$route'(to,from){
+                                this.id=to.params.id
+                                }
+                        }
+                }
+
+echo "# -" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/UseAder/-.git
+git push -u origin master
+
+        锚点:
+           <p id="data">some text</p>     
+           const router =new VueRouter({
+                //实例化路由对象
+                routes,
+                mode:'history',   //还有一个是hash/history  它们的作用是关于地址的#
+                scrollBehavior(to,from){//锚点
+                        if (to.hash) {
+                        return {selector:to.hash}
+                        }
+                }
+          })
+          //
+          data(){
+                return {
+                        link:{
+                        name:'user3',
+                        params:{id:this.$route.params.id},
+                        query:{lacal:'zh',q:100},
+                        hash:'#data'
+                        }
+                }
+         }
+
+        可以进行权限管理：
+                router.beforeEach((to,from,next)=>{
+                console.log('beforeEach Router',to,from);
+                next()
+                })
+        、、
+         data(){
+                return {
+                        confirmed:false
+                }
+        },
+                //beforeRouteLeave 是路由的钩子函数   离开一个组件
+                //beforeRouteEnter  进入一个组件
+        beforeRouteLeave: (to, from, next) => {
+        if (this.confirmed) {
+                next()
+        } else {
+                if (confirm('are you sure')) {
+                next()
+                } else {
+                next(false)
+                }
+        }
+        }
+
+
+路由的懒加载：
+        import User1 from './Router/User1.vue';
+        import User2 from './Router/User2.vue';
+        import User3 from './Router/User3.vue';
+        改：
+        const User1 = resolve =>{
+                require.ensure(['./Router/User1.vue'],()=>{
+                     resolve(require('./Router/User1.vue'))   
+                },'user')
+        }
+         const User2 = resolve =>{
+                require.ensure(['./Router/User2.vue'],()=>{
+                     resolve(require('./Router/User2.vue'))   
+                },'user')
+        }
+        ....
