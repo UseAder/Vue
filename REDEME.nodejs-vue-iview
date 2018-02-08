@@ -1,0 +1,82 @@
+﻿安装 cnpm i iview --save
+     {
+        test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+        loader: 'file-loader'
+     }：添加ttf 添加后重启
+    路由配置：
+        import Home from './compoents/home.vue'
+        export const routes =[
+            {path:'/',component:Home}
+        ]
+        。。
+        import VueRouter from 'vue-router';
+        import {routes} from './router.js';
+        Vue.use(VueRouter);
+        const router =new VueRouter({
+        routes,
+        mode:'hash'
+        }) 
+        new Vue({
+        el: '#app',
+        router,
+        render: h => h(App)
+        })
+        。。
+        <router-view></router-view>
+
+        <router-link to="/" active-class="active">
+        内容。。。
+        </router-link>
+node
+        
+        安装：cnpm i axios vue-axios -S
+            import axios from 'axios'
+                import VueAxios from 'vue-axios'
+                Vue.use(VueAxios, axios)
+        引入data数据：    
+            created(){
+            this.$http.post('http://localhost:3000/cat/list').then((response) => {
+                this.data=response.data
+            })
+            },
+
+    
+    base64 把一张图片转为base64编码
+    github( vue-quill-editor  )————>vue编辑器
+    安装 cnpm install vue-quill-editor --save
+        import VueQuillEditor from 'vue-quill-editor'
+        import 'quill/dist/quill.core.css'
+        import 'quill/dist/quill.snow.css'
+        import 'quill/dist/quill.bubble.css'
+        Vue.use(VueQuillEditor, /* { default global options } */)
+    。。
+        onEditorChange({ quill, html, text }) {
+            console.log('editor change!', quill, html, text)
+            this.formValidate.mail = html
+        }
+        ..
+        <quill-editor :content="formValidate.mail"
+            @change="onEditorChange($event)">
+        </quill-editor>
+        如果from提交内容过多，遇到413错误，可以利用扩容的方式
+
+    安装 cnpm install crypto-js -S   加密处理
+        import sha256 from 'crypto-js/sha256';
+        this.formValidate.password=sha256(this.formValidate.password).toString()
+ 要冷静   
+
+    安装 cnpm install async -S		异步模式
+	var async=require('async')
+	async.map(['file1','file2','file3'], fs.stat, function(err, results) {
+            // results is now an array of stats for each file
+        });
+
+    我们要实现文件的上传：需要 GitHub（multer）
+		文件上传格式格式必须 multipart/form-data
+
+	
+
+        微信小程序:
+            http://sae.sina.com.cn/?m=vermng&app_id=chinatianyi&version=1
+            http://www.runoob.com/css/css-rwd-viewport.html 
+            github (vue mint ui)
